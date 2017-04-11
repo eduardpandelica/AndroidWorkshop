@@ -7,9 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.adrian.workshop1.model.GitHub;
+import com.example.adrian.workshop1.model.LoginData;
+
+import okhttp3.Credentials;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PrimulActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "LoginActivity";
@@ -47,25 +54,36 @@ public class PrimulActivity extends AppCompatActivity implements View.OnClickLis
                 performLogin(mUsername.getText().toString(), mPassword.getText().toString());
                 break;
         }
-        Toast.makeText(this, "Login Succesfull!", Toast.LENGTH_LONG).show();
     }
 
     private void performLogin(String username, String password) {
         //  TODO: make a network call and authenticate the user
-        if (!("".equals(password) || "".equals(username))) {
-            Toast.makeText(this, "Login Succesfull!", Toast.LENGTH_SHORT).show();
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-            pref.edit().putBoolean("login", true).apply();
-            // Start Profil.class
-            Intent myIntent = new Intent(PrimulActivity.this, Profil.class);
-            startActivity(myIntent);
-            finish();
-        } else {
-            if ("".equals(password))
-                mPassword.setError("Invalid Password");
-            if ("".equals(username))
-                mUsername.setError("Invalid Username");
-            Toast.makeText(this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
-        }
+
+        Call<LoginData> callable = GitHub.Service.Get().checkAuth(Credentials.basic(username, password));
+
+        callable.enqueue(new Callback<LoginData>() {
+            @Override
+            public void onResponse(Call<LoginData> call, Response<LoginData> response) {
+                if(response.isSuccessful()) {
+                    Toast.makeText(PrimulActivity.this, "Login Succesfull!", Toast.LENGTH_SHORT).show();
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(PrimulActivity.this);
+                    pref.edit().putBoolean("login", true).apply();
+                    // Start Profil.class
+                    Intent myIntent = new Intent(PrimulActivity.this, Profil.class);
+                    startActivity(myIntent);
+                    finish();
+                } else {
+                    Toast.makeText(PrimulActivity.this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
+                    mPassword.setError("Invalid Password");
+                    mUsername.setError("Invalid Username");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginData> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(PrimulActivity.this, "Internet problem", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

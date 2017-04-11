@@ -39,25 +39,25 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:text="Bio"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:scrollbars="vertical"
+            android:ellipsize="end"
             android:id="@+id/description"
             android:text="@string/description"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:weightSum="2">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:text="Location"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
@@ -68,7 +68,7 @@
                 android:text="@string/location"
                 android:id="@+id/location"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -77,12 +77,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:weightSum="3">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:text="Email"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
@@ -93,7 +93,7 @@
                 android:text="@string/email"
                 android:id="@+id/email"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_weight="2"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -102,12 +102,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:weightSum="2">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:text="Created"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
@@ -118,7 +118,7 @@
                 android:text="@string/created"
                 android:id="@+id/created"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -127,12 +127,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:weightSum="2">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:text="Updated"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
@@ -143,7 +143,7 @@
                 android:textColor="@color/colorPrimary"
                 android:text="@string/updated"
                 android:id="@+id/updated"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -152,12 +152,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:weightSum="2">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:text="Public Repos"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
@@ -168,7 +168,7 @@
                 android:textColor="@color/colorPrimary"
                 android:text="@string/public_repo"
                 android:id="@+id/public_repo"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -177,12 +177,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:weightSum="2">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:text="Private Repos"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
@@ -193,7 +193,7 @@
                 android:text="@string/private_repo"
                 android:id="@+id/private_repo"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>

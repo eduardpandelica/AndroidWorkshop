@@ -14,4 +14,7 @@
     <string name="email"><u>adrian.pandelica95@gmail.com</u></string>
     <string name="public_repo"><u>0</u></string>
     <string name="private_repo"><u>0</u></string>
+    <string name="description_elem">Description</string>
+    <string name="public_check">public</string>
+    <string name="name_owner">%1$s , %2$s</string>
 </resources>
