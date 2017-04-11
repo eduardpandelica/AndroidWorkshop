@@ -16,8 +16,10 @@
         android:layout_height="wrap_content"
         android:text="@string/name_owner"/>
     <TextView
+        android:id="@+id/description_repo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
+        android:ellipsize="end"
         android:text="@string/description_elem"
         android:padding="@dimen/padding_medium"/>
     <LinearLayout
@@ -26,6 +28,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"/>
     <CheckBox
+        android:id="@+id/check_public"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/public_check"

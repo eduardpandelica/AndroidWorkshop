@@ -14,9 +14,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.adrian.workshop1.model.GitHub;
+import com.example.adrian.workshop1.model.ProfileData;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Adrian on 3/28/2017.
@@ -26,6 +34,9 @@ public class Profil extends AppCompatActivity implements View.OnClickListener {
 
     private TextView Location;
     private TextView Email;
+    private TextView Description;
+    private TextView Name;
+    private TextView Employee;
     private TextView Created;
     private TextView Updated;
     private TextView PublicRepos;
@@ -36,33 +47,70 @@ public class Profil extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         // Get the view from profil.xml
         setContentView(R.layout.profil);
-        Location = (TextView) findViewById(R.id.location);
-        String htmlString="<u>Bucharest</u>";
-        Location.setText(Html.fromHtml(htmlString));
-
-        Email = (TextView) findViewById(R.id.email);
-        htmlString="<u>adrian.pandelica95@gmail.com</u>";
-        Email.setText(Html.fromHtml(htmlString));
-
-        Created = (TextView) findViewById(R.id.created);
-        SpannableString content = new SpannableString("Thu, May 26, 2015");
-        content.setSpan(new UnderlineSpan(), 0, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        Created.setText(content);
-
-        Updated = (TextView) findViewById(R.id.updated);
-        content = new SpannableString("Wed, Jun 03, 2016");
-        content.setSpan(new UnderlineSpan(), 0, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        Updated.setText(content);
-
-        PublicRepos = (TextView) findViewById(R.id.public_repo);
-        htmlString="<u>0</u>";
-        PublicRepos.setText(Html.fromHtml(htmlString));
-
-        PrivateRepos = (TextView) findViewById(R.id.private_repo);
-        htmlString="<u>0</u>";
-        PrivateRepos.setText(Html.fromHtml(htmlString));
 
         findViewById(R.id.blog_button).setOnClickListener(this);
+
+        getProfile();
+    }
+
+    private void getProfile() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        Call<ProfileData> callable = GitHub.Service.Get().getProfile(pref.getString("login", null));
+
+        callable.enqueue(new Callback<ProfileData>() {
+            @Override
+            public void onResponse(Call<ProfileData> call, Response<ProfileData> response) {
+                if(response.isSuccessful()) {
+                    updateUI(response.body());
+                } else {
+                    Toast.makeText(Profil.this, "Couldn't fetch profile", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileData> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(Profil.this, "Internet problem", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void updateUI(ProfileData data) {
+        Location = (TextView) findViewById(R.id.location);
+        underlined_text(Location, data.getLocation());
+
+        Email = (TextView) findViewById(R.id.email);
+        underlined_text(Email, data.getEmail());
+
+        Name = (TextView) findViewById(R.id.name);
+        if(data.getName() != null)
+            Name.setText(data.getName());
+
+        Employee = (TextView) findViewById(R.id.employee);
+        underlined_text(Employee, data.getCompany());
+
+        Description = (TextView) findViewById(R.id.description);
+        underlined_text(Description, data.getBio());
+
+        Created = (TextView) findViewById(R.id.created);
+        underlined_text(Created, data.getCreatedAt());
+
+        Updated = (TextView) findViewById(R.id.updated);
+        underlined_text(Updated, data.getUpdatedAt());
+
+        PublicRepos = (TextView) findViewById(R.id.public_repo);
+        underlined_text(PublicRepos, data.getPublicRepos().toString());
+
+        PrivateRepos = (TextView) findViewById(R.id.private_repo);
+        underlined_text(PrivateRepos, data.getTotalPrivateRepos().toString());
+    }
+
+    private void underlined_text(TextView v , String string) {
+        if (string != null) {
+            SpannableString content = new SpannableString(string);
+            content.setSpan(new UnderlineSpan(), 0, content.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            v.setText(content);
+        }
     }
 
     @Override
@@ -87,7 +135,7 @@ public class Profil extends AppCompatActivity implements View.OnClickListener {
         switch (item.getItemId()) {
             case R.id.logout:
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-                pref.edit().putBoolean("login", false).apply();
+                pref.edit().putString("login", null).apply();
                 Intent myIntent = new Intent(Profil.this, PrimulActivity.class);
                 startActivity(myIntent);
                 finish();

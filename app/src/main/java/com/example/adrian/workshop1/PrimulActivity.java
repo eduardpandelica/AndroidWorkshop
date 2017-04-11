@@ -39,7 +39,7 @@ public class PrimulActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        if(pref.getBoolean("login", false)) {
+        if(pref.getString("login", null) != null) {
             Intent myIntent = new Intent(PrimulActivity.this, Profil.class);
             startActivity(myIntent);
             finish();
@@ -58,16 +58,17 @@ public class PrimulActivity extends AppCompatActivity implements View.OnClickLis
 
     private void performLogin(String username, String password) {
         //  TODO: make a network call and authenticate the user
-
-        Call<LoginData> callable = GitHub.Service.Get().checkAuth(Credentials.basic(username, password));
+        final String authHash = Credentials.basic(username, password);
+        Call<LoginData> callable = GitHub.Service.Get().checkAuth(authHash);
 
         callable.enqueue(new Callback<LoginData>() {
             @Override
             public void onResponse(Call<LoginData> call, Response<LoginData> response) {
                 if(response.isSuccessful()) {
                     Toast.makeText(PrimulActivity.this, "Login Succesfull!", Toast.LENGTH_SHORT).show();
+
                     SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(PrimulActivity.this);
-                    pref.edit().putBoolean("login", true).apply();
+                    pref.edit().putString("login", authHash).apply();
                     // Start Profil.class
                     Intent myIntent = new Intent(PrimulActivity.this, Profil.class);
                     startActivity(myIntent);
