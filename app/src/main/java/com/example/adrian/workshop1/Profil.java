@@ -1,11 +1,14 @@
 package com.example.adrian.workshop1;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.UnderlineSpan;
@@ -18,9 +21,6 @@ import android.widget.Toast;
 
 import com.example.adrian.workshop1.model.GitHub;
 import com.example.adrian.workshop1.model.ProfileData;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +41,7 @@ public class Profil extends AppCompatActivity implements View.OnClickListener {
     private TextView Updated;
     private TextView PublicRepos;
     private TextView PrivateRepos;
+    DialogFragment newFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,11 +135,7 @@ public class Profil extends AppCompatActivity implements View.OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-                pref.edit().putString("login", null).apply();
-                Intent myIntent = new Intent(Profil.this, PrimulActivity.class);
-                startActivity(myIntent);
-                finish();
+                showDialog();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -146,4 +143,55 @@ public class Profil extends AppCompatActivity implements View.OnClickListener {
         return true;
     }
 
+    public static class MyAlertDialogFragment extends DialogFragment {
+
+        public static MyAlertDialogFragment newInstance(int title) {
+            MyAlertDialogFragment frag = new MyAlertDialogFragment();
+            Bundle args = new Bundle();
+            args.putInt("title", title);
+            frag.setArguments(args);
+            return frag;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            int title = getArguments().getInt("title");
+
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle(title)
+                    .setNegativeButton(R.string.alert_dialog_cancel,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    ((Profil)getActivity()).doNegativeClick();
+                                }
+                            }
+                    )
+                    .setPositiveButton(R.string.alert_dialog_ok,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    ((Profil)getActivity()).doPositiveClick();
+                                }
+                            }
+                    )
+                    .create();
+        }
+    }
+
+    void showDialog() {
+        newFragment = MyAlertDialogFragment.newInstance(
+                R.string.alert_dialog_two_buttons_title);
+        newFragment.show(getFragmentManager(), "dialog");
+    }
+
+    public void doPositiveClick() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        pref.edit().putString("login", null).apply();
+        Intent myIntent = new Intent(Profil.this, PrimulActivity.class);
+        startActivity(myIntent);
+        finish();
+    }
+
+    public void doNegativeClick() {
+        newFragment.dismiss();
+    }
 }
