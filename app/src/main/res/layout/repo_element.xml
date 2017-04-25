@@ -1,38 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/name"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/repo_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="18"
-        android:gravity="right"/>
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/name_owner"/>
-    <TextView
-        android:id="@+id/description_repo"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:ellipsize="end"
-        android:text="@string/description_elem"
-        android:padding="@dimen/padding_medium"/>
-    <LinearLayout
-        android:id="@+id/Topics"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"/>
-    <CheckBox
-        android:id="@+id/check_public"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/public_check"
-        android:enabled="false"
-        android:textColor="@android:color/primary_text_light" />
-
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:text="@string/name_owner"
+    android:padding="@dimen/padding_medium"/>

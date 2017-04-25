@@ -1,8 +1,10 @@
 package com.example.adrian.workshop1;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,15 +33,32 @@ public class RepoActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private Adapter adapter;
+    private boolean mCanShowDetails = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.repository);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mCanShowDetails = (findViewById(R.id.container) != null);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new Adapter();
+        adapter = new Adapter(new Adapter.Callback(){
+            @Override
+            public void show(RepositoryData repository) {
+                if(mCanShowDetails) {
+                    Fragment details = RepositoryDetailsFragment.New(repository);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, details).commit();
+                } else {
+                    Intent myIntent = new Intent(RepoActivity.this, FragmentActivity.class);
+                    myIntent.putExtra("description", repository.getDescription());
+                    myIntent.putExtra("public_repo", !repository.getPrivate());
+                    myIntent.putExtra("url", repository.getUrl());
+                    myIntent.putExtra("html_url", repository.getHtmlUrl());
+                    startActivity(myIntent);
+                }
+            }
+        });
         mRecyclerView.setAdapter(adapter);
 
         getRepositories();
@@ -70,6 +89,14 @@ public class RepoActivity extends AppCompatActivity {
 
     static class Adapter extends RecyclerView.Adapter {
         List<RepositoryData> mData;
+        Callback mCallBack;
+
+        public Adapter(Callback callback) {
+            mCallBack = callback;
+        }
+        public interface Callback {
+            void show(RepositoryData repository);
+        }
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -78,8 +105,13 @@ public class RepoActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ((ViewHolder) holder).bind(mData.get(position));
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+            ((ViewHolder) holder).bind(mData.get(position), new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    mCallBack.show(mData.get(position));
+                }
+            });
         }
 
         @Override
@@ -93,28 +125,16 @@ public class RepoActivity extends AppCompatActivity {
 
         static class ViewHolder extends RecyclerView.ViewHolder {
 
-            private final TextView mCountWatcher;
-            private final LinearLayout mTopics;
             private final TextView mName;
-            private final TextView mDescription;
-            private final CheckBox mPublic;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                mCountWatcher = (TextView) itemView.findViewById(R.id.repo_number);
-                mTopics = (LinearLayout) itemView.findViewById(R.id.Topics);
                 mName = (TextView) itemView.findViewById(R.id.name);
-                mPublic = (CheckBox) itemView.findViewById(R.id.check_public);
-                mDescription = (TextView) itemView.findViewById(R.id.description_repo);
             }
 
-            public void bind(RepositoryData repository) {
-                mCountWatcher.setText(String.valueOf(repository.getWatchersCount()));
-                mPublic.setChecked(!repository.getPrivate());
-                if(repository.getDescription() != null) {
-                    mDescription.setText(repository.getDescription());
-                }
+            public void bind(RepositoryData repository, View.OnClickListener onClickListener) {
                 mName.setText(itemView.getContext().getString(R.string.name_owner, repository.getName(), repository.getOwner().getLogin()));
+                itemView.setOnClickListener(onClickListener);
             }
         }
     }

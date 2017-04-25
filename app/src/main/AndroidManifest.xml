@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".RepoActivity" >
         </activity>
+        <activity android:name=".FragmentActivity" >
+        </activity>
     </application>
 
 </manifest>
