@@ -19,8 +19,10 @@ import android.widget.Toast;
 import com.example.adrian.workshop1.model.GitHub;
 import com.example.adrian.workshop1.model.ProfileData;
 
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeoutException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +50,16 @@ public class Profil extends AppCompatActivity implements View.OnClickListener {
         // Get the view from profil.xml
         setContentView(R.layout.profil);
 
+        Location = (TextView) findViewById(R.id.location);
+        Email = (TextView) findViewById(R.id.email);
+        Name = (TextView) findViewById(R.id.name);
+        Employee = (TextView) findViewById(R.id.employee);
+        Description = (TextView) findViewById(R.id.description);
+        Created = (TextView) findViewById(R.id.created);
+        Updated = (TextView) findViewById(R.id.updated);
+        PublicRepos = (TextView) findViewById(R.id.public_repo);
+        PrivateRepos = (TextView) findViewById(R.id.private_repo);
+
         findViewById(R.id.blog_button).setOnClickListener(this);
 
         getProfile();
@@ -63,45 +75,55 @@ public class Profil extends AppCompatActivity implements View.OnClickListener {
                 if(response.isSuccessful()) {
                     updateUI(response.body());
                 } else {
-                    Toast.makeText(Profil.this, "Couldn't fetch profile", Toast.LENGTH_LONG).show();
+                    switch(response.code()) {
+                        case 401:
+                            Toast.makeText(Profil.this, "Couldn't fetch profile", Toast.LENGTH_LONG).show();
+                            break;
+                        case 404:
+                            Toast.makeText(Profil.this, "Page not found", Toast.LENGTH_LONG).show();
+                            break;
+                        case 500:
+                            Toast.makeText(Profil.this, "Internal server error", Toast.LENGTH_LONG).show();
+                            break;
+                        case 503:
+                            Toast.makeText(Profil.this, "Service unavailable", Toast.LENGTH_LONG).show();
+                            break;
+                        case 550:
+                            Toast.makeText(Profil.this, "Permission denied", Toast.LENGTH_LONG).show();
+                            break;
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<ProfileData> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(Profil.this, "Internet problem", Toast.LENGTH_LONG).show();
+                if(t instanceof UnknownHostException)
+                    Toast.makeText(Profil.this, "Internet problem", Toast.LENGTH_LONG).show();
+                if(t instanceof TimeoutException)
+                    Toast.makeText(Profil.this, "Connection time expired", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void updateUI(ProfileData data) {
-        Location = (TextView) findViewById(R.id.location);
         underlined_text(Location, data.getLocation());
 
-        Email = (TextView) findViewById(R.id.email);
         underlined_text(Email, data.getEmail());
 
-        Name = (TextView) findViewById(R.id.name);
         if(data.getName() != null)
             Name.setText(data.getName());
 
-        Employee = (TextView) findViewById(R.id.employee);
         underlined_text(Employee, data.getCompany());
 
-        Description = (TextView) findViewById(R.id.description);
         underlined_text(Description, data.getBio());
 
-        Created = (TextView) findViewById(R.id.created);
         underlined_text(Created, data.getCreatedAt());
 
-        Updated = (TextView) findViewById(R.id.updated);
         underlined_text(Updated, data.getUpdatedAt());
 
-        PublicRepos = (TextView) findViewById(R.id.public_repo);
         underlined_text(PublicRepos, data.getPublicRepos().toString());
 
-        PrivateRepos = (TextView) findViewById(R.id.private_repo);
         underlined_text(PrivateRepos, data.getTotalPrivateRepos().toString());
     }
 
@@ -139,11 +161,9 @@ public class Profil extends AppCompatActivity implements View.OnClickListener {
                 Intent myIntent = new Intent(Profil.this, PrimulActivity.class);
                 startActivity(myIntent);
                 finish();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+                return true;
         }
-        return true;
+        return false;
     }
 
 }

@@ -6,25 +6,31 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/very_small_margin"
+        android:layout_marginLeft="@dimen/very_small_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/very_small_margin"
+            android:layout_marginLeft="@dimen/very_small_margin"
             android:orientation="horizontal">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/medium_size"
+                android:layout_height="@dimen/medium_size"
                 android:src="@mipmap/profil" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/very_small_margin"
+                android:layout_marginLeft="@dimen/very_small_margin"
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
+                    android:textSize="@dimen/medium_text"
                     android:id="@+id/name"
                     android:text="@string/name"/>
                 <TextView
@@ -37,28 +43,30 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="15dp"
-            android:text="Bio"/>
+            android:layout_marginTop="@dimen/very_small_margin"
+            android:layout_marginBottom="@dimen/very_small_margin"
+            android:textSize="@dimen/medium_text"
+            android:text="@string/bio"/>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="@dimen/large_size"
             android:ellipsize="end"
             android:id="@+id/description"
             android:text="@string/description"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/very_small_margin"
+            android:layout_marginLeft="@dimen/very_small_margin"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/small_margin"
             android:weightSum="2">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="Location"
+                android:textSize="@dimen/medium_text"
+                android:text="@string/location_profile"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
                 android:layout_gravity="start"/>
@@ -68,7 +76,7 @@
                 android:text="@string/location"
                 android:id="@+id/location"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15dp"
+                android:textSize="@dimen/medium_text"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -76,14 +84,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/very_small_margin"
+            android:layout_marginLeft="@dimen/very_small_margin"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/very_small_margin"
             android:weightSum="3">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="Email"
+                android:textSize="@dimen/medium_text"
+                android:text="@string/email_profile"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
                 android:layout_gravity="start"/>
@@ -93,7 +103,7 @@
                 android:text="@string/email"
                 android:id="@+id/email"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15dp"
+                android:textSize="@dimen/medium_text"
                 android:layout_weight="2"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -101,14 +111,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/very_small_margin"
+            android:layout_marginLeft="@dimen/very_small_margin"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/very_small_margin"
             android:weightSum="2">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="Created"
+                android:textSize="@dimen/medium_text"
+                android:text="@string/created_profile"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
                 android:layout_gravity="start"/>
@@ -118,7 +130,7 @@
                 android:text="@string/created"
                 android:id="@+id/created"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15dp"
+                android:textSize="@dimen/medium_text"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -126,14 +138,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/very_small_margin"
+            android:layout_marginLeft="@dimen/very_small_margin"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/very_small_margin"
             android:weightSum="2">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="Updated"
+                android:textSize="@dimen/medium_text"
+                android:text="@string/updated_profile"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
                 android:layout_gravity="start"/>
@@ -143,7 +157,7 @@
                 android:textColor="@color/colorPrimary"
                 android:text="@string/updated"
                 android:id="@+id/updated"
-                android:textSize="15dp"
+                android:textSize="@dimen/medium_text"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -151,14 +165,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/very_small_margin"
+            android:layout_marginLeft="@dimen/very_small_margin"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/very_small_margin"
             android:weightSum="2">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="Public Repos"
+                android:textSize="@dimen/medium_text"
+                android:text="@string/public_repos"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
                 android:layout_gravity="start"/>
@@ -168,7 +184,7 @@
                 android:textColor="@color/colorPrimary"
                 android:text="@string/public_repo"
                 android:id="@+id/public_repo"
-                android:textSize="15dp"
+                android:textSize="@dimen/medium_text"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -176,14 +192,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/very_small_margin"
+            android:layout_marginLeft="@dimen/very_small_margin"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/very_small_margin"
             android:weightSum="2">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="Private Repos"
+                android:textSize="@dimen/medium_text"
+                android:text="@string/private_repos"
                 android:layout_weight="1"
                 android:textAlignment="textStart"
                 android:layout_gravity="start"/>
@@ -193,7 +211,7 @@
                 android:text="@string/private_repo"
                 android:id="@+id/private_repo"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15dp"
+                android:textSize="@dimen/medium_text"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"/>
@@ -202,12 +220,12 @@
     <Button
         android:id="@+id/blog_button"
         android:layout_width="match_parent"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
+        android:layout_marginEnd="@dimen/very_small_margin"
+        android:layout_marginStart="@dimen/very_small_margin"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"
         android:cursorVisible="true"
-        android:text="View Blog"
+        android:text="@string/view_blog"
         android:gravity="center"
         android:drawableLeft="@mipmap/internet"/>
 </RelativeLayout>

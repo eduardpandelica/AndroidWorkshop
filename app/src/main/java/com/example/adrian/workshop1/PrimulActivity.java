@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.example.adrian.workshop1.model.GitHub;
 import com.example.adrian.workshop1.model.LoginData;
 
+import java.net.UnknownHostException;
+import java.util.concurrent.TimeoutException;
+
 import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,7 +77,26 @@ public class PrimulActivity extends AppCompatActivity implements View.OnClickLis
                     startActivity(myIntent);
                     finish();
                 } else {
-                    Toast.makeText(PrimulActivity.this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
+                    switch(response.code()) {
+                        case 401:
+                            Toast.makeText(PrimulActivity.this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
+                            break;
+                        case 403:
+                            Toast.makeText(PrimulActivity.this, "Login limit has been reached", Toast.LENGTH_LONG).show();
+                            break;
+                        case 404:
+                            Toast.makeText(PrimulActivity.this, "Page not found", Toast.LENGTH_LONG).show();
+                            break;
+                        case 500:
+                            Toast.makeText(PrimulActivity.this, "Internal server error", Toast.LENGTH_LONG).show();
+                            break;
+                        case 503:
+                            Toast.makeText(PrimulActivity.this, "Service unavailable", Toast.LENGTH_LONG).show();
+                            break;
+                        case 550:
+                            Toast.makeText(PrimulActivity.this, "Permission denied", Toast.LENGTH_LONG).show();
+                            break;
+                    }
                     mPassword.setError("Invalid Password");
                     mUsername.setError("Invalid Username");
                 }
@@ -83,7 +105,10 @@ public class PrimulActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onFailure(Call<LoginData> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(PrimulActivity.this, "Internet problem", Toast.LENGTH_LONG).show();
+                if(t instanceof UnknownHostException)
+                    Toast.makeText(PrimulActivity.this, "Internet problem", Toast.LENGTH_LONG).show();
+                if(t instanceof TimeoutException)
+                    Toast.makeText(PrimulActivity.this, "Connection time expired", Toast.LENGTH_LONG).show();
             }
         });
     }

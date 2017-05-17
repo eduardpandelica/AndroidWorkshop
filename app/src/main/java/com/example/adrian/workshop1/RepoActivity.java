@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.example.adrian.workshop1.model.GitHub;
 import com.example.adrian.workshop1.model.RepositoryData;
 
+import java.net.UnknownHostException;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,14 +58,33 @@ public class RepoActivity extends AppCompatActivity {
                     adapter.setData(response.body());
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(RepoActivity.this, "Couldn't fetch repos", Toast.LENGTH_LONG).show();
+                    switch(response.code()) {
+                        case 401:
+                            Toast.makeText(RepoActivity.this, "Couldn't fetch repo's", Toast.LENGTH_LONG).show();
+                            break;
+                        case 404:
+                            Toast.makeText(RepoActivity.this, "Page not found", Toast.LENGTH_LONG).show();
+                            break;
+                        case 500:
+                            Toast.makeText(RepoActivity.this, "Internal server error", Toast.LENGTH_LONG).show();
+                            break;
+                        case 503:
+                            Toast.makeText(RepoActivity.this, "Service unavailable", Toast.LENGTH_LONG).show();
+                            break;
+                        case 550:
+                            Toast.makeText(RepoActivity.this, "Permission denied", Toast.LENGTH_LONG).show();
+                            break;
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<List<RepositoryData>> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(RepoActivity.this, "Internet problem", Toast.LENGTH_LONG).show();
+                if(t instanceof UnknownHostException)
+                    Toast.makeText(RepoActivity.this, "Internet problem", Toast.LENGTH_LONG).show();
+                if(t instanceof TimeoutException)
+                    Toast.makeText(RepoActivity.this, "Connection time expired", Toast.LENGTH_LONG).show();
             }
         });
     }

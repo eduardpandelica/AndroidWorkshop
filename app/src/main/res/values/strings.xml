@@ -17,4 +17,17 @@
     <string name="description_elem">Description</string>
     <string name="public_check">public</string>
     <string name="name_owner">%1$s , %2$s</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="bio">Bio</string>
+    <string name="location_profile">Location</string>
+    <string name="email_profile">Email</string>
+    <string name="created_profile">Created</string>
+    <string name="updated_profile">Updated</string>
+    <string name="public_repos">Public Repos</string>
+    <string name="private_repos">Private Repos</string>
+    <string name="view_blog">View Blog</string>
+    <string name="repo_number">18</string>
+    <string name="logout">Logout</string>
 </resources>
